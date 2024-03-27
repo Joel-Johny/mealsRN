@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { StyleSheet, Text, SafeAreaView,View,FlatList } from 'react-native';
 import { MEALS } from '../data/dummy';
 import MealTile from '../Components/MealTile';
-const Meals = ({route}) => {
-    const catId=route.params.id
+const Meals = ({route,navigation}) => {
+    const catId=route.params.data.id
     const categoryMeals=MEALS.filter((meal)=>{
         // if(meal.categoryIds.indexOf(catId)>=0)
         //     return meal or
@@ -12,6 +12,14 @@ const Meals = ({route}) => {
         // give condition only if true meal will e returned else nothing
 
     })
+    // console.log(route.params)
+
+    useLayoutEffect(()=>{
+      navigation.setOptions({
+        title:route.params.data.title
+      })
+    },[])
+  
     const handleMealItemRender=(mealItemData)=>{
         return <MealTile itemData={mealItemData}/>
     }

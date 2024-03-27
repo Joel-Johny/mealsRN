@@ -4,8 +4,6 @@ import { CATEGORIES } from "../data/dummy";
 import CategoryTile from "../Components/CategoryTile";
 
 
-
-
 const Categories = ({ navigation }) => {
 
 //   console.log("Rendering categories page here is the navigation object", navigation);
@@ -15,7 +13,7 @@ const Categories = ({ navigation }) => {
 
     function handleScreenChange() {
     //   console.log("Pressed and this is navigation object", navigation);
-      navigation.navigate("Meals",{id:itemData.item.id});
+      navigation.navigate("Meals",{data:itemData.item});
     }
 
     return (

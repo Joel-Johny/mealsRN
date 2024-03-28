@@ -1,5 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import React, { useEffect,useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,29 +10,39 @@ import {
 } from "react-native";
 import { MEALS } from "../data/dummy";
 import { Ionicons } from '@expo/vector-icons';
+import { FavouriteDishesCtx } from "../store/context";
+
 
 const MealDetails = ({ route, navigation }) => {
   const mealId = route.params.data;
-  const [star, setStar] = React.useState("star-outline");
+  const FavouriteDishesContext=useContext(FavouriteDishesCtx)
+  const isFav=FavouriteDishesContext.mealIds.includes(mealId)
+  console.log(isFav)
+  console.log(FavouriteDishesContext.mealIds)
   function handleFavourite(){
-      setStar((oldState) => oldState === "star-outline" ? "star" : "star-outline"); 
+    // console.log(FavouriteDishesContext.addDishId(mealId))
+    if(isFav)
+      FavouriteDishesContext.removeDishId(mealId)
+    else
+      FavouriteDishesContext.addDishId(mealId)
+
   }
 
 useEffect(() => {
   navigation.setOptions({
     headerRight: () => ( 
       <Pressable style={{ marginRight: 10 }} onPress={handleFavourite}>
-        <Ionicons name={star} size={24} color="white" />
+        <Ionicons name={(isFav)?"star":"star-outline"} size={24} color="white" />
       </Pressable>
     ),
   });
-}, [star]); 
+}, [isFav]); 
 
 
   const mealDetails = MEALS.find((meal) => {
     if (meal.id === mealId) return meal;
   });
-  console.log(mealDetails, mealId);
+  // console.log(mealDetails, mealId);
   const ingredients = mealDetails.ingredients;
   const steps = mealDetails.steps;
   const title = mealDetails.title;

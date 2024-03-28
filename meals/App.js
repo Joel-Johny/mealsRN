@@ -9,7 +9,7 @@ import MealDetails from "./Screens/MealDetails";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-
+import  FavouriteProvider  from "./store/context";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -98,7 +98,8 @@ function StackNavigator() {
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <NavigationContainer>
+      <FavouriteProvider>
+     <NavigationContainer>
         <BottomTab.Navigator
           screenOptions={{
             headerStyle: { backgroundColor: "rgb(92, 72, 72)" },
@@ -132,6 +133,8 @@ export default function App() {
           />
         </BottomTab.Navigator>
       </NavigationContainer>
+      </FavouriteProvider>
+ 
     </SafeAreaView>
   );
 }

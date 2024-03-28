@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,11 +7,29 @@ import {
   View,
   Image,
   ScrollView,
+  Pressable,
 } from "react-native";
 import { MEALS } from "../data/dummy";
+import { Ionicons } from '@expo/vector-icons';
 
-const MealDetails = ({ route }) => {
+const MealDetails = ({ route, navigation }) => {
   const mealId = route.params.data;
+  const [star, setStar] = React.useState("star-outline");
+  function handleFavourite(){
+      setStar((oldState) => oldState === "star-outline" ? "star" : "star-outline"); 
+  }
+
+useEffect(() => {
+  navigation.setOptions({
+    headerRight: () => ( 
+      <Pressable style={{ marginRight: 10 }} onPress={handleFavourite}>
+        <Ionicons name={star} size={24} color="white" />
+      </Pressable>
+    ),
+  });
+}, [star]); 
+
+
   const mealDetails = MEALS.find((meal) => {
     if (meal.id === mealId) return meal;
   });
@@ -28,7 +46,7 @@ const MealDetails = ({ route }) => {
         {ingredients.map((ingredient, index) => (
           <View style={styles.listTextContianer} key={index}>
             <Text style={styles.listTextStyle}>
-            #{index + 1} - {ingredient}
+              #{index + 1} - {ingredient}
             </Text>
           </View>
         ))}
@@ -38,7 +56,7 @@ const MealDetails = ({ route }) => {
         {steps.map((step, index) => (
           <View style={styles.listTextContianer} key={index}>
             <Text key={index} style={styles.listTextStyle}>
-            #{index + 1} - {step}
+              #{index + 1} - {step}
             </Text>
           </View>
         ))}
@@ -78,17 +96,16 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   listTextStyle: {
-    color:"red",
-    fontSize:15
+    color: "red",
+    fontSize: 15,
   },
-  listTextContianer:{
-    margin:5,
-    paddingHorizontal:20,
-    paddingVertical:10,
-    borderColor:"red",
-    borderWidth:2,
-    borderRadius:8,
-    backgroundColor:"pink"
-
-  }
+  listTextContianer: {
+    margin: 5,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderColor: "red",
+    borderWidth: 2,
+    borderRadius: 8,
+    backgroundColor: "pink",
+  },
 });

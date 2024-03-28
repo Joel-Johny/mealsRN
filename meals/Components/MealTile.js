@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Pressable, Image } from "react-native";
 
 const MealTile = ({ itemData }) => {
   const navigation=useNavigation()
+
 //   console.log("------------", itemData, "===========");
   return (
     <View style={styles.outerTile}>

@@ -1,4 +1,4 @@
-import React, { useEffect,useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,35 +9,42 @@ import {
   Pressable,
 } from "react-native";
 import { MEALS } from "../data/dummy";
-import { Ionicons } from '@expo/vector-icons';
-import { FavouriteDishesCtx } from "../store/context";
-
+import { Ionicons } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavourite, removeFavourite } from "../store/redux/favouriteSlice";
+// import { FavouriteDishesCtx } from "../store/context";
 
 const MealDetails = ({ route, navigation }) => {
   const mealId = route.params.data;
-  const FavouriteDishesContext=useContext(FavouriteDishesCtx)
-  const isFav=FavouriteDishesContext.mealIds.includes(mealId)
-  console.log(isFav)
-  console.log(FavouriteDishesContext.mealIds)
-  function handleFavourite(){
+  const dispatch = useDispatch();
+  // const FavouriteDishesContext=useContext(FavouriteDishesCtx)
+  const favMealIds = useSelector((store) => store.favourite.mealIds);
+  console.log(favMealIds);
+  const isFav = favMealIds.indexOf(mealId);
+  console.log(isFav);
+  // console.log(FavouriteDishesContext.mealIds)
+  function handleFavourite() {
     // console.log(FavouriteDishesContext.addDishId(mealId))
-    if(isFav)
-      FavouriteDishesContext.removeDishId(mealId)
-    else
-      FavouriteDishesContext.addDishId(mealId)
+    if (isFav==-1) dispatch(addFavourite(mealId))
+    // FavouriteDishesContext.removeDishId(mealId)
+    else dispatch(removeFavourite(mealId));
 
+    // FavouriteDishesContext.addDishId(mealId)
   }
 
-useEffect(() => {
-  navigation.setOptions({
-    headerRight: () => ( 
-      <Pressable style={{ marginRight: 10 }} onPress={handleFavourite}>
-        <Ionicons name={(isFav)?"star":"star-outline"} size={24} color="white" />
-      </Pressable>
-    ),
-  });
-}, [isFav]); 
-
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Pressable style={{ marginRight: 10 }} onPress={handleFavourite}>
+          <Ionicons
+            name={(isFav==-1) ? "star-outline" : "star"}
+            size={24}
+            color="white"
+          />
+        </Pressable>
+      ),
+    });
+  }, [isFav]);
 
   const mealDetails = MEALS.find((meal) => {
     if (meal.id === mealId) return meal;

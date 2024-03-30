@@ -9,7 +9,10 @@ import MealDetails from "./Screens/MealDetails";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import  FavouriteProvider  from "./store/context";
+// import FavouriteProvider from "./store/context";
+import { Provider } from "react-redux";
+import { Store } from "./store/redux/store";
+
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -98,43 +101,46 @@ function StackNavigator() {
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <FavouriteProvider>
-     <NavigationContainer>
-        <BottomTab.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: "rgb(92, 72, 72)" },
-            headerTintColor: "white",
-            contentStyle: { backgroundColor: "red" },
-            headerStyle: { backgroundColor: "#f4511e" }, // Header background
-            // contentStyle: { backgroundColor: '#60a5fa' }, // Screen background not working
-          }}
-        >
-          {/* <Stack.Screen
+      <Provider store={Store}>
+        {/* <FavouriteProvider> */}
+          <NavigationContainer>
+            <BottomTab.Navigator
+              screenOptions={{
+                headerStyle: { backgroundColor: "rgb(92, 72, 72)" },
+                headerTintColor: "white",
+                contentStyle: { backgroundColor: "red" },
+                headerStyle: { backgroundColor: "#f4511e" }, // Header background
+                // contentStyle: { backgroundColor: '#60a5fa' }, // Screen background not working
+              }}
+            >
+              {/* <Stack.Screen
             name="drawer"
             component={DrawerNavigator}
             options={{ headerShown: false }}
           /> */}
-          <BottomTab.Screen
-            name="Home"
-            component={StackNavigator}
-            options={{
-              headerShown: false,
-              tabBarIcon: () => <Ionicons name="home" size={24} color="red" />,
-            }}
-          />
-          <BottomTab.Screen
-            name="Favorites"
-            component={Favourites}
-            options={{
-              tabBarIcon: () => (
-                <Ionicons name="star" size={24} color="orange" />
-              ),
-            }}
-          />
-        </BottomTab.Navigator>
-      </NavigationContainer>
-      </FavouriteProvider>
- 
+              <BottomTab.Screen
+                name="Home"
+                component={StackNavigator}
+                options={{
+                  headerShown: false,
+                  tabBarIcon: () => (
+                    <Ionicons name="home" size={24} color="red" />
+                  ),
+                }}
+              />
+              <BottomTab.Screen
+                name="Favorites"
+                component={Favourites}
+                options={{
+                  tabBarIcon: () => (
+                    <Ionicons name="star" size={24} color="orange" />
+                  ),
+                }}
+              />
+            </BottomTab.Navigator>
+          </NavigationContainer>
+        {/* </FavouriteProvider> */}
+      </Provider>
     </SafeAreaView>
   );
 }

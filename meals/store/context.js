@@ -1,9 +1,9 @@
 import React,{createContext, useState} from 'react'
 
 export const FavouriteDishesCtx=createContext({
-    mealIds: [], // Initial value
-    addDishId: () => {}, // Placeholder implementations
-    removeDishId: () => {},
+    // mealIds: [], // Initial value
+    // addDishId: () => {}, // Placeholder implementations
+    // removeDishId: () => {},
 })
 
 export default function FavouriteProvider({children}){
